@@ -63,6 +63,7 @@ M.buffer_name = function(nr)
       .. mod_flag
       .. "%#TbfLineBufOnEdge#"
       .. Tabufline.opts.icons.tab_edge.right
+      .. " "
   else
     local icon_hi = U.combine_hl(file_icon.highlight, "TbfLineBufOff")
     mod_flag = (mod_flag ~= "" and "%#TbfLineBufOffModified#" .. mod_flag .. " ")
