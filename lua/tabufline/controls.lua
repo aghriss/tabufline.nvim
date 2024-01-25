@@ -67,7 +67,9 @@ function M.close_buf(bufnr)
       vim.cmd("enew")
     end
 
-    if not (bufhidden == "delete") then vim.cmd("confirm bd" .. bufnr) end
+    if not (bufhidden == "delete") then
+      vim.cmd("confirm bd" .. bufnr)
+    end
   end
   M.set_all_filenames()
   vim.cmd("redrawtabline")
@@ -75,7 +77,9 @@ end
 
 function M.close_other_bufs()
   for _, buf in ipairs(vim.t.tabufs) do
-    if buf ~= api.nvim_get_current_buf() then vim.api.nvim_buf_delete(buf, {}) end
+    if buf ~= api.nvim_get_current_buf() then
+      vim.api.nvim_buf_delete(buf, {})
+    end
   end
   M.set_all_filenames()
   vim.cmd("redrawtabline")
@@ -88,13 +92,17 @@ end
 M.close_all_bufs = function(action)
   local bufs = vim.t.tabufs
 
-  if action == "closeTab" then vim.cmd("tabclose") end
+  if action == "closeTab" then
+    vim.cmd("tabclose")
+  end
 
   for _, buf in ipairs(bufs) do
     M.close_buf(buf)
   end
 
-  if action ~= "closeTab" then vim.cmd("enew") end
+  if action ~= "closeTab" then
+    vim.cmd("enew")
+  end
 end
 
 M.delete_empty = function(new_buf)
@@ -164,26 +172,35 @@ local function move_to_buf(step)
   vim.cmd("b" .. bufs[goto_buf_idx])
 end
 
-function M.next_buffer() move_to_buf(1) end
+function M.next_buffer()
+  move_to_buf(1)
+end
 
-function M.prev_buffer() move_to_buf(-1) end
+function M.prev_buffer()
+  move_to_buf(-1)
+end
 
-M.set_filenames = function(tabnr)
+M.set_filenames = function(tabpage_id)
   local fname
   local fname_to_buf = {}
   local empty_count = 0
-  tabnr = tabnr or vim.fn.tabpagenr()
-  local buf_names = vim.t[tabnr].tabuf_names or {}
+  tabpage_id = tabpage_id or U.get_tabpage_id()
+
+  local buf_names = vim.t[tabpage_id].tabuf_names or {}
   -- we want to map fname to buffer
-  for _, buf in ipairs(vim.t[tabnr].tabufs) do
+  for _, buf in ipairs(vim.t[tabpage_id].tabufs) do
     fname = U.get_buf_fname(buf)
     if fname == "" then
       fname = "?"
         .. ((empty_count == 0 and "") or ("[" .. tostring(empty_count + 1)) .. "]")
       empty_count = empty_count + 1
     end
-    if not buf_names[buf] then buf_names[tostring(buf)] = {} end
-    if not fname_to_buf[fname] then fname_to_buf[fname] = {} end
+    if not buf_names[buf] then
+      buf_names[tostring(buf)] = {}
+    end
+    if not fname_to_buf[fname] then
+      fname_to_buf[fname] = {}
+    end
     buf_names[tostring(buf)].name = fname
     table.insert(fname_to_buf[fname], buf)
     -- end
@@ -207,21 +224,23 @@ M.set_filenames = function(tabnr)
       end
     end
   end
-  vim.t[tabnr].tabuf_names = buf_names
+  vim.t[tabpage_id].tabuf_names = buf_names
 end
 
 M.set_all_filenames = function()
-  -- local number_of_tabs = vim.fn.tabpagenr("$")
-  for _, tabnr in ipairs(api.nvim_list_tabpages()) do
-    -- for tabnr = 1, number_of_tabs, 1 do
-    M.set_filenames(tabnr)
+  for _, tabpage_id in ipairs(api.nvim_list_tabpages()) do
+    M.set_filenames(tabpage_id)
   end
 end
 
 M.add_buffer = function(bufnr)
   local bufs = vim.t.tabufs or {}
-  if not U.buf_is_valid(bufnr) then return end
-  if not vim.tbl_contains(bufs, bufnr) then table.insert(bufs, bufnr) end
+  if not U.buf_is_valid(bufnr) then
+    return
+  end
+  if not vim.tbl_contains(bufs, bufnr) then
+    table.insert(bufs, bufnr)
+  end
   vim.t.tabufs = bufs
   M.set_filenames()
 end

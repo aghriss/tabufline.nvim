@@ -10,6 +10,7 @@ M.buttons = function()
     .. "%X"
   return toggle_themeBtn .. CloseAllBufsBtn
 end
+
 function M.theme_toggle_btn(toggle_button)
   return U.create_button(
     "TbToggleTheme",

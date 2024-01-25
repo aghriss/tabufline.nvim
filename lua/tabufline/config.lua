@@ -5,7 +5,7 @@ if not Tabufline then Tabufline = {
 return {
   defaults = {
     -- theme = "nvchad",
-    theme = "aghriss",
+    theme = "cat",
     lazyload = true,
     max_filename_len = 16,
     show_parent = true,

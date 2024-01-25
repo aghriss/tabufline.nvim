@@ -43,29 +43,6 @@ M.open = function()
     "<cmd>stopinsert | lua P('" .. currName .. "|" .. win .. "')<CR>",
     map_opts
   )
-  -- vim.api.nvim_buf_set_keymap(
-  -- 	0,
-  -- 	"i",
-  -- 	"<CR>",
-  -- 	"<cmd>stopinsert | lua require('aghriss.utils.renamer').apply("
-  -- 		.. currName
-  -- 		.. ","
-  -- 		.. win
-  -- 		.. ")<CR>",
-  -- 	map_opts
-  -- )
-
-  -- vim.api.nvim_buf_set_keymap(
-  -- 	0,
-  -- 	"n",
-  -- 	"<CR>",
-  -- 	"<cmd>stopinsert | lua require('aghriss.utils.renamer').apply("
-  -- 		.. currName
-  -- 		.. ","
-  -- 		.. win
-  -- 		.. ")<CR>",
-  -- 	map_opts
-  -- )
 end
 
 M.apply = function(curr, win)

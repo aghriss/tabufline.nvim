@@ -2,7 +2,9 @@ local api = vim.api
 local fn = vim.fn
 local M = {}
 
-M.merge_tb = function(...) return vim.tbl_deep_extend("force", ...) end
+M.merge_tb = function(...)
+  return vim.tbl_deep_extend("force", ...)
+end
 
 M.buf_is_valid = function(bufnr)
   -- vim.bo: Get or set buffer-scoped, if bufnr not indexed, uses current buffer
@@ -12,11 +14,19 @@ end
 
 M.get_buf_index = function(bufnr)
   for i, value in ipairs(vim.t.tabufs) do
-    if value == bufnr then return i end
+    if value == bufnr then
+      return i
+    end
   end
 end
 
-M.get_curbuf_index = function() return M.get_buf_index(api.nvim_get_current_buf()) end
+M.get_curbuf_index = function()
+  return M.get_buf_index(api.nvim_get_current_buf())
+end
+
+M.get_tabpage_id = function(tabpagenr)
+  return api.nvim_list_tabpages()[tabpagenr or fn.tabpagenr()]
+end
 
 M.get_buf_fname = function(bufnr)
   return fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
@@ -26,6 +36,7 @@ end
 M.get_buf_dirname = function(bufnr)
   return fn.fnamemodify(vim.fs.normalize(api.nvim_buf_get_name(bufnr)), ":p:h")
 end
+
 M.combine_hl = function(main_hi, inherit_hi)
   -- new highlight is Tbfline .. group1 .. group2
   -- get the fg color of group1
@@ -35,22 +46,24 @@ M.combine_hl = function(main_hi, inherit_hi)
 
   local new_hi = vim.tbl_deep_extend(
     "force",
-    vim.api.nvim_get_hl_by_name(inherit_hi,0),
-    vim.api.nvim_get_hl_by_name(main_hi,0)
+    vim.api.nvim_get_hl_by_name(inherit_hi, 0),
+    vim.api.nvim_get_hl_by_name(main_hi, 0)
   )
   -- create a new highliht group with fg=group1.fg and bg=group2.bg
-  api.nvim_set_hl(0,main_hi .. inherit_hi, new_hi)
-  return "%#".. main_hi .. inherit_hi .. "#"
+  api.nvim_set_hl(0, main_hi .. inherit_hi, new_hi)
+  return "%#" .. main_hi .. inherit_hi .. "#"
 end
 
-M.get_tabs = function()
+M.get_tabpages = function()
   local number_of_tabs = fn.tabpagenr("$")
   local tabs = {}
   if number_of_tabs > 1 then
     tabs.all = {}
     for i = 1, number_of_tabs, 1 do
       table.insert(tabs.all, vim.t[i].name or i)
-      if i == fn.tabpagenr() then tabs.current = i end
+      if i == fn.tabpagenr() then
+        tabs.current = i
+      end
     end
   end
   return tabs

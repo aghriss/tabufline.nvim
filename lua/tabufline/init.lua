@@ -1,7 +1,9 @@
--- TabDeb = true
+-- TabufDebug = true
 TabufDebug = false
 Pr = function(item)
-  if TabufDebug then print(vim.inspect(item)) end
+  if TabufDebug then
+    print(vim.inspect(item))
+  end
 end
 local C = require("tabufline.controls")
 local U = require("tabufline.utils")
@@ -16,7 +18,9 @@ M.setup = function(opts)
   local listed_bufs = {}
 
   for _, val in ipairs(api.nvim_list_bufs()) do
-    if U.buf_is_valid(val) then table.insert(listed_bufs, val) end
+    if U.buf_is_valid(val) then
+      table.insert(listed_bufs, val)
+    end
   end
   vim.t.tabufs = listed_bufs
 
@@ -48,6 +52,13 @@ M.setup = function(opts)
     end,
   })
 
+  vim.api.nvim_create_user_command("Tabrename", function(args)
+    vim.t.name = args.args
+  end, { nargs = 1 })
+
+  vim.api.nvim_create_user_command("Tabr", function(args)
+    vim.t.name = args.args
+  end, { nargs = 1 })
   -- require("core.utils").load_mappings("tabufline")
 
   -- if Tabufline.opts.lazyload then
