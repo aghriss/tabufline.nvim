@@ -2,41 +2,6 @@ local api = vim.api
 local U = require("tabufline.utils")
 local M = {}
 
--- local function swap_buf(step)
--- 	-- swap curbuf.idx and curbuf.idx + step
--- 	local bufs = vim.t.tabufs
--- 	-- local curbuf_idx = get_curbuf_index()
---
--- 	for buf_idx, bufnr in ipairs(bufs) do
--- 		if bufnr == vim.api.nvim_get_current_buf() then
--- 			if step < 0 and buf_idx == 1 or step > 0 and buf_idx == #bufs then
--- 				bufs[1], bufs[#bufs] = bufs[#bufs], bufs[1]
--- 			else
--- 				bufs[buf_idx], bufs[buf_idx + step] = bufs[buf_idx + step], bufs[buf_idx]
--- 			end
---
--- 			break
--- 		end
--- 	end
--- 	vim.t.tabufs = bufs
--- 	vim.cmd("redrawtabline")
--- end
-
--- Buffers are validatec before being added to vim.t.tabufs
--- local filter_valid_bufs = function()
--- 	local bufs = vim.t.tabufs or {}
---
--- 	for i, nr in ipairs(bufs) do
--- 		if not vim.api.nvim_buf_is_valid(nr) then
--- 			table.remove(bufs, i)
--- 		end
--- 	end
--- 	vim.t.tabufs = bufs
--- 	return bufs
--- end
--- closes tab + all of its buffers
---
-
 function M.close_buf(bufnr)
   if vim.bo.buftype == "terminal" then
     vim.cmd(vim.bo.buflisted and "set nobl | enew" or "hide")
@@ -245,4 +210,38 @@ M.add_buffer = function(bufnr)
   M.set_filenames()
 end
 
+-- local function swap_buf(step)
+-- 	-- swap curbuf.idx and curbuf.idx + step
+-- 	local bufs = vim.t.tabufs
+-- 	-- local curbuf_idx = get_curbuf_index()
+--
+-- 	for buf_idx, bufnr in ipairs(bufs) do
+-- 		if bufnr == vim.api.nvim_get_current_buf() then
+-- 			if step < 0 and buf_idx == 1 or step > 0 and buf_idx == #bufs then
+-- 				bufs[1], bufs[#bufs] = bufs[#bufs], bufs[1]
+-- 			else
+-- 				bufs[buf_idx], bufs[buf_idx + step] = bufs[buf_idx + step], bufs[buf_idx]
+-- 			end
+--
+-- 			break
+-- 		end
+-- 	end
+-- 	vim.t.tabufs = bufs
+-- 	vim.cmd("redrawtabline")
+-- end
+
+-- Buffers are validatec before being added to vim.t.tabufs
+-- local filter_valid_bufs = function()
+-- 	local bufs = vim.t.tabufs or {}
+--
+-- 	for i, nr in ipairs(bufs) do
+-- 		if not vim.api.nvim_buf_is_valid(nr) then
+-- 			table.remove(bufs, i)
+-- 		end
+-- 	end
+-- 	vim.t.tabufs = bufs
+-- 	return bufs
+-- end
+-- closes tab + all of its buffers
+--
 return M

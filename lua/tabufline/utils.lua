@@ -111,6 +111,14 @@ M.get_nvimtree_pad = function(side)
   end
 end
 
+
+M.create_button = function(vim_cmd, lua_func, highlight_group, string)
+  vim.cmd(
+    "function! " .. vim_cmd .. "(a,b,c,d) \n lua " .. lua_func .. " \n endfunction"
+  )
+  return "%@" .. vim_cmd .. "@%#" .. highlight_group .. string .. "%X"
+end
+
 -- vim.g.TbTabsToggled = 0
 
 -- M.get_tabs = function()
@@ -136,11 +144,4 @@ end
 -- or new_tabtn .. tabstoggleBtn .. result
 -- end
 -- end
-
-M.create_button = function(vim_cmd, lua_func, highlight_group, string)
-  vim.cmd(
-    "function! " .. vim_cmd .. "(a,b,c,d) \n lua " .. lua_func .. " \n endfunction"
-  )
-  return "%@" .. vim_cmd .. "@%#" .. highlight_group .. string .. "%X"
-end
 return M

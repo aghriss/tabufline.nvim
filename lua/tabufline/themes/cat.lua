@@ -8,10 +8,7 @@ local function map(tbl, f)
   end
   return t
 end
--- local name = "Ghriss"
 M.run = function()
-  -- return "%#TbLineTabCloseBtn#" .."tabufline" .."%X"
-  -- return C.add_nvimtree_pad(
   Ctrl.remove_invalid()
   local buffers = "%#TbfLineFill#  "
     .. table.concat(map(vim.t.tabufs, C.buffer_name), "")
@@ -28,11 +25,6 @@ M.run = function()
   Pr({ flat_buffers, string.len(flat_buffers) })
   Pr({ flat_tabs, string.len(flat_tabs) })
   return buffers .. string.rep(" ", width - filled_region) .. tabs
-  -- .. "%#TbfLineBufOff#"
-  -- .. "%="
-  -- .. name
-  -- .. "%="
-  -- .. "tabs"
 end
 
 return M
